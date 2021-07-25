@@ -1,9 +1,10 @@
 {
-  "name": "filexfer",
+  "name": "ssft-web",
   "version": "0.1.0",
-  "description": "Transfer files from one browser to another",
+  "description": "Stupid Simple File Transfer - Transfer files from one browser to another",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "KB1RD <kb1rd@kb1rd.net>",

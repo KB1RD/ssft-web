@@ -9,6 +9,7 @@ const app = express();
 
 const responses = new Map();
 
+const portNum = parseInt(process.env.PORT_NUM) || 8080;
 const randomCharLen = parseInt(process.env.RANDOM_LEN) || 24;
 let publicURL = process.env.PUBLIC_URL;
 
@@ -87,4 +88,5 @@ app.post('/stream/:id?', function (req, res, next) {
   }
 });
 
-app.listen(parseInt(process.env.PORT_NUM) || 8080);
+app.listen(portNum);
+console.log(`Started ssft-web on port ${portNum}`);
