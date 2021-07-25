@@ -9,7 +9,7 @@ const app = express();
 
 const responses = new Map();
 
-const portNum = parseInt(process.env.PORT_NUM) || 8080;
+const portNum = parseInt(process.env.PORT || process.env.PORT_NUM) || 8080;
 const randomCharLen = parseInt(process.env.RANDOM_LEN) || 24;
 let publicURL = process.env.PUBLIC_URL;
 

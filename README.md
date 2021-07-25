@@ -10,5 +10,5 @@ Simply run `npm start` to run the script. No building required.
 
 Environment Variables
 * `PUBLIC_URL` - **Required.** The public URL of the instance.
-* `PORT_NUM` - Port to bind to. Defaults to `8080`.
+* `PORT` - Port to bind to. Defaults to `8080`.
 * `RANDOM_LEN` - Length of random share IDs to generate. Defaults to `24`.
