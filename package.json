@@ -1,0 +1,17 @@
+{
+  "name": "filexfer",
+  "version": "0.1.0",
+  "description": "Transfer files from one browser to another",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KB1RD <kb1rd@kb1rd.net>",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "busboy": "^0.3.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "qrcode": "^1.4.4"
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>File Transfer</title>
+  </head>
+  <body>
+    <h1>stupid simple file transfer</h1>
+    <h2>Transferring files with id "{{{id}}}"</h2>
+    <p>Step 1: Change the transfer ID below. Share the ID to download the file.</p>
+    <form action="/app/">
+      <input id="id" name="id" value="{{{id}}}" placeholder="Share ID">
+      <input type="submit">
+    </form>
+    <form action="/app/" method="post">
+      <button type="submit">Random ID</button>
+    </form>
+    
+    <h3>QR Code</h3>
+    <p>A QR code to link to this page:</p>
+    <img src="{{{qr}}}"></img>
+
+    <h2>Download</h2>
+    <p>Step 2: Click this <a href="/stream/{{{id}}}">download link</a> on the recieving end <b>before</b> uploading.</p>
+
+    <h2>Upload</h2>
+    <p>Step 3: Upload here:</p>
+    <form action="/stream/{{{id}}}" method="post" enctype="multipart/form-data">
+      <input type="file" id="upload" name="upload">
+      <input type="submit">
+    </form>
+    <p>Once you've clicked submit, the download should start on the other device. The file is not stored on the server, only streamed through it.</p>
+  </body>
+</html>
