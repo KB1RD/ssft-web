@@ -87,4 +87,4 @@ app.post('/stream/:id?', function (req, res, next) {
   }
 });
 
-app.listen(3000);
+app.listen(parseInt(process.env.PORT_NUM) || 8080);
