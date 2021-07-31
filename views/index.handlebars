@@ -6,6 +6,13 @@
   </head>
   <body>
     <h1>stupid simple file transfer</h1>
+    <h2>Security Notice</h2>
+    <p>
+      File contents are only streamed through the server, but not stored there. However, if the server is compromised, file contents can be read.
+      In addition, if someone else has the transfer ID, they may be able to download the file first. Only one person at a time can download a file, though,
+      so if you ensure that the receiving party clicks the download link before you upload, then nobody else should be able to access the file.
+    </p>
+    <p>As with any GPL licensed software, you use this at your own risk. I'm not liable for any damages ;)</p>
     <h2>Transferring files with id "{{{id}}}"</h2>
     <p>Step 1: Change the transfer ID below. Share the ID to download the file.</p>
     <form action="/app/">
@@ -21,7 +28,7 @@
     <img src="{{{qr}}}"></img>
 
     <h2>Download</h2>
-    <p>Step 2: Click this <a href="/stream/{{{id}}}">download link</a> on the recieving end <b>before</b> uploading.</p>
+    <p>Step 2: Click this <a href="/stream/{{{id}}}">download link</a> on the recieving end. You may click the download link before uploading now.</p>
 
     <h2>Upload</h2>
     <p>Step 3: Upload here:</p>
@@ -30,5 +37,6 @@
       <input type="submit">
     </form>
     <p>Once you've clicked submit, the download should start on the other device. The file is not stored on the server, only streamed through it.</p>
+    <a href="https://github.com/kb1rd/ssft-web" target="_blank">GitHub</a>
   </body>
 </html>

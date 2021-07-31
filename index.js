@@ -7,7 +7,10 @@ const inspect = require('util').inspect;
 
 const app = express();
 
+// Responses that need an uploader
 const responses = new Map();
+// Requests that need a downloader
+const requests = new Map();
 
 const portNum = parseInt(process.env.PORT || process.env.PORT_NUM) || 8080;
 const randomCharLen = parseInt(process.env.RANDOM_LEN) || 24;
@@ -18,7 +21,7 @@ if (!publicURL) {
   process.exit(-1);
 }
 if (publicURL.endsWith('/')) {
-  publicURL = publicURL.slice(0, publicURL.length);
+  publicURL = publicURL.slice(0, publicURL.length - 1);
 }
 
 app.engine('handlebars', exphbs());
@@ -46,17 +49,21 @@ app.post('/app/', function (req, res, next) {
 
 app.get('/stream/:id?', function (req, res, next) {
   const id = req.params.id || '';
+  if (requests.has(id)) {
+    requests.get(id)();
+  }
   if (!responses.has(id)) {
     responses.set(id, res);
   } else {
     res.status(403).send('Someone is already trying to download this file');
   }
-  req.on('end', () => responses.delete(id));
+  req.on('close', () => responses.delete(id));
 });
 
 app.post('/stream/:id?', function (req, res, next) {
   const id = req.params.id || '';
-  if (responses.has(id)) {
+  const onResponse = () => {
+    requests.delete(id);
     const busboy = new Busboy({ headers: req.headers });
     let piped = false;
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -64,6 +71,7 @@ app.post('/stream/:id?', function (req, res, next) {
         const otherres = responses.get(id);
         otherres.set('Content-Encoding', encoding);
         otherres.type(mimetype);
+        otherres.attachment(filename);
         file.pipe(responses.get(id));
         piped = true;
         file.on('end', function() {
@@ -80,11 +88,14 @@ app.post('/stream/:id?', function (req, res, next) {
       }
     });
     req.pipe(busboy);
-
-    req.on('end', next);
+  };
+  req.on('close', () => {
+    requests.delete(id);
+  });
+  if (responses.has(id)) {
+    onResponse();
   } else {
-    res.status(404).send('No download attempted');
-    next();
+    requests.set(id, onResponse);
   }
 });
 
