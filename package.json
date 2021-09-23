@@ -1,6 +1,6 @@
 {
   "name": "ssft-web",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Stupid Simple File Transfer - Transfer files from one browser to another",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "busboy": "^0.3.1",
+    "escape-html": "^1.0.3",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.2",
     "qrcode": "^1.4.4"

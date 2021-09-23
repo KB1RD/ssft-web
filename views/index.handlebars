@@ -19,9 +19,8 @@
       <input id="id" name="id" value="{{{id}}}" placeholder="Share ID">
       <input type="submit">
     </form>
-    <form action="/app/" method="post">
-      <button type="submit">Random ID</button>
-    </form>
+    <a href="/random/">Random ID</a>
+    <p>Tip: Drag the Random ID link up to your bookmarks bar to create a quick share link</p>
     
     <h3>QR Code</h3>
     <p>A QR code to link to this page:</p>
@@ -34,6 +33,11 @@
     <p>Step 3: Upload here:</p>
     <form action="/stream/{{{id}}}" method="post" enctype="multipart/form-data">
       <input type="file" id="upload" name="upload">
+      <input type="submit">
+    </form>
+    <p>OR: Go to URL. This will send the client browser to the URL below:</p>
+    <form action="/stream/{{{id}}}" method="post" enctype="multipart/form-data">
+      <input id="url" name="url">
       <input type="submit">
     </form>
     <p>Once you've clicked submit, the download should start on the other device. The file is not stored on the server, only streamed through it.</p>

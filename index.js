@@ -2,6 +2,7 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const Busboy = require('busboy');
 const QRCode = require('qrcode');
+const escape = require('escape-html');
 
 const inspect = require('util').inspect;
 
@@ -38,8 +39,9 @@ app.get('/app/', async function (req, res, next) {
   res.render('index', { id, qr: await QRCode.toDataURL(`${publicURL}${req.url}`) });
 });
 
-app.post('/app/', function (req, res, next) {
-   let id = '';
+// Bookmark this to have a link to easily create a random share
+app.get('/random', function (req, res, next) {
+  let id = '';
    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
    for (let i = 0; i < randomCharLen; i++) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -64,9 +66,22 @@ app.post('/stream/:id?', function (req, res, next) {
   const id = req.params.id || '';
   const onResponse = () => {
     requests.delete(id);
+
     const busboy = new Busboy({ headers: req.headers });
-    let piped = false;
-    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+    let piped = false; // Tell whether something was actually transferred
+
+    // Handle URL redirect requests
+    busboy.on('field', function (fieldname, url) {
+      if (fieldname === 'url' && !piped) {
+        const otherres = responses.get(id);
+        otherres.render('urlredirect', { url_quote: encodeURIComponent(url), url_html: escape(url) });
+        responses.delete(id);
+        piped = true;
+      }
+    });
+
+    // Handle file transfers by streaming
+    busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
       if (fieldname === 'upload' && !piped) {
         const otherres = responses.get(id);
         otherres.set('Content-Encoding', encoding);
@@ -80,6 +95,7 @@ app.post('/stream/:id?', function (req, res, next) {
         });
       }
     });
+
     busboy.on('finish', function () {
       if (piped) {
         res.status(200).send('Transferred file successfully');

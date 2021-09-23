@@ -2,7 +2,8 @@
 
 Stupid Simple File Transfer - Facilitates 1-1 file transfer via an intermediate
 server by piping the upload stream directly into the downstream, while storing
-no content on the server. Requires no client side scripting.
+no content on the server. Requires no client side scripting. It can also
+transfer URLs between browsers.
 
 Try the demo at https://ssft-web.herokuapp.com/
 
