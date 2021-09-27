@@ -74,7 +74,7 @@ app.post('/stream/:id?', function (req, res, next) {
     busboy.on('field', function (fieldname, url) {
       if (fieldname === 'url' && !piped) {
         const otherres = responses.get(id);
-        otherres.render('urlredirect', { url_quote: encodeURIComponent(url), url_html: escape(url) });
+        otherres.render('urlredirect', { url_quote: url.replace('"', '\\"'), url_html: escape(url) });
         responses.delete(id);
         piped = true;
       }
